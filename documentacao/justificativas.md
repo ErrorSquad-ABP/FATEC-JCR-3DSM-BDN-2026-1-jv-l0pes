@@ -2,8 +2,8 @@
 
 ## Onde usamos Embedding e por que
 
-- Em `negociacoes.historico` (array de eventos de estagio/status com data e responsavel).
-- Motivo: cada negociacao e lida frequentemente com seu proprio historico completo; manter no mesmo documento reduz joins logicos e simplifica leitura sequencial.
+- Em `negociacoes.historico` (array de eventos de estágio/status com data e responsável).
+- Motivo: cada negociação é lida frequentemente com seu próprio histórico completo; manter no mesmo documento reduz joins lógicos e simplifica leitura sequencial.
 
 ## Onde usamos Referencing e por que
 
@@ -13,18 +13,18 @@
 - `negociacoes.leadId -> leads._id`
 - `logs.leadId` e `logs.usuarioId`
 
-Motivo: `clientes`, `usuarios` e `lojas` sao entidades reutilizadas por muitos leads e mudam de forma independente; referencing evita redundancia e inconsistencias.
+Motivo: `clientes`, `usuarios` e `lojas` são entidades reutilizadas por muitos leads e mudam de forma independente; referencing evita redundância e inconsistências.
 
-## Vantagens do modelo nao relacional neste contexto
+## Vantagens do modelo não relacional neste contexto
 
-- Flexibilidade para evoluir schema de lead/negociacao sem migracoes pesadas.
-- Escrita rapida de eventos e historico comercial.
+- Flexibilidade para evoluir schema de lead/negociação sem migrações pesadas.
+- Escrita rápida de eventos e histórico comercial.
 - Estruturas de dashboard com aggregation pipeline nativa.
-- Boa aderencia ao dominio de funil comercial (eventos e estagios dinamicos).
+- Boa aderência ao domínio de funil comercial (eventos e estágios dinâmicos).
 
 ## Trade-offs aceitos
 
-- Maior responsabilidade da aplicacao para validacao de regras de negocio.
-- Necessidade de indices para manter desempenho das consultas analiticas.
-- Governanca de consistencia entre colecoes referenciadas.
+- Maior responsabilidade da aplicação para validação de regras de negócio.
+- Necessidade de índices para manter desempenho das consultas analíticas.
+- Governança de consistência entre coleções referenciadas.
 

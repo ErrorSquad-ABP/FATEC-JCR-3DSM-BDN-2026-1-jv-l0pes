@@ -1,6 +1,6 @@
 # Consultas e Aggregations (MongoDB)
 
-## Consultas obrigatorias
+## Consultas obrigatórias
 
 ### 1) `$and` + `$or`
 
@@ -29,7 +29,7 @@ db.clientes.find({
 });
 ```
 
-### 4) Projecao + ordenacao
+### 4) Projeção + ordenação
 
 ```javascript
 db.leads
@@ -37,7 +37,7 @@ db.leads
   .sort({ createdAt: -1 });
 ```
 
-### 5) Paginacao
+### 5) Paginação
 
 ```javascript
 db.leads
@@ -67,7 +67,7 @@ db.leads.aggregate([
 ]);
 ```
 
-### Taxa de conversao
+### Taxa de conversão
 
 ```javascript
 db.leads.aggregate([
@@ -107,7 +107,7 @@ db.leads.aggregate([
 ]);
 ```
 
-### Leads por importancia
+### Leads por importância
 
 ```javascript
 db.leads.aggregate([

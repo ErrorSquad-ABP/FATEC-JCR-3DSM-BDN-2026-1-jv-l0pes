@@ -1,8 +1,8 @@
-# Modelagem C4 - Sistema de Gestao de Leads (MongoDB)
+# Modelagem C4 - Sistema de Gestão de Leads (MongoDB)
 
-Este arquivo guia a equipe na implementacao orientada ao dominio da atividade BDN.
+Este arquivo guia a equipe na implementação orientada ao domínio da atividade BDN.
 
-## C4 - Nivel 1 (Contexto)
+## C4 - Nível 1 (Contexto)
 
 ```mermaid
 flowchart TB
@@ -10,20 +10,20 @@ flowchart TB
     Vendedor[Atendente/Vendedor]
     Gerente[Gerente comercial]
     Admin[Administrador]
-    Sistema["Sistema de Gestao de Leads - 1000 Valle Multimarcas"]
+    Sistema["Sistema de Gestão de Leads - 1000 Valle Multimarcas"]
 
     Cliente -->|gera interesse por canais| Sistema
-    Vendedor -->|atualiza lead e negociacao| Sistema
+    Vendedor -->|atualiza lead e negociação| Sistema
     Gerente -->|acompanha indicadores| Sistema
-    Admin -->|governanca e auditoria| Sistema
+    Admin -->|governança e auditoria| Sistema
 ```
 
-## C4 - Nivel 2 (Containers logicos)
+## C4 - Nível 2 (Containers lógicos)
 
 ```mermaid
 flowchart LR
     UI["Canal de Captura - telefone, WhatsApp, Instagram, form"]
-    API[Camada de Aplicacao]
+    API[Camada de Aplicação]
     DB[(MongoDB)]
     BI[Painel Gerencial]
 
@@ -33,7 +33,7 @@ flowchart LR
     API --> BI
 ```
 
-## C4 - Nivel 3 (Componentes de dados)
+## C4 - Nível 3 (Componentes de dados)
 
 ```mermaid
 flowchart TB
@@ -52,7 +52,7 @@ flowchart TB
     Logs --> Usuarios
 ```
 
-## C4 - Nivel 4 (Fluxo principal de negocio)
+## C4 - Nível 4 (Fluxo principal de negócio)
 
 ```mermaid
 sequenceDiagram
@@ -61,14 +61,14 @@ sequenceDiagram
     participant S as Sistema
     participant M as MongoDB
 
-    C->>A: Demonstra interesse em veiculo
+    C->>A: Demonstra interesse em veículo
     A->>S: Cadastra lead
-    S->>M: Inserir cliente (se nao existir)
-    S->>M: Inserir lead com referencia de cliente/loja/atendente
-    A->>S: Inicia negociacao
-    S->>M: Inserir negociacao ativa (unica por lead)
-    A->>S: Atualiza estagio/status
-    S->>M: Append no historico (embedding)
+    S->>M: Inserir cliente (se não existir)
+    S->>M: Inserir lead com referência de cliente/loja/atendente
+    A->>S: Inicia negociação
+    S->>M: Inserir negociação ativa (única por lead)
+    A->>S: Atualiza estágio/status
+    S->>M: Append no histórico (embedding)
     S->>M: Registrar log de auditoria
 ```
 
@@ -96,20 +96,20 @@ erDiagram
         objectId lojaId
         string origem
         string status
-        string importancia
+        string importância
     }
     NEGOCIACOES {
         objectId _id
         objectId leadId
         bool ativa
         array historico
-        string estagioAtual
+        string estágioAtual
     }
 ```
 
-## Decisoes de modelagem (resumo operacional)
+## Decisões de modelagem (resumo operacional)
 
-- **Embedding:** historico da negociacao dentro de `negociacoes` para leitura rapida da evolucao.
-- **Referencing:** `leads` aponta para `clientes`, `usuarios` e `lojas` para evitar duplicacao de entidades mestres.
-- **Integridade de negocio:** indice unico parcial para garantir somente uma negociacao ativa por lead.
+- **Embedding:** histórico da negociação dentro de `negociacoes` para leitura rápida da evolução.
+- **Referencing:** `leads` aponta para `clientes`, `usuarios` e `lojas` para evitar duplicação de entidades mestres.
+- **Integridade de negócio:** índice único parcial para garantir somente uma negociação ativa por lead.
 
