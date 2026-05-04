@@ -1,115 +1,18 @@
-# Modelagem C4 - Sistema de Gestão de Leads (MongoDB)
+# C4 Architecture - Lead Management System (MongoDB)
 
-Este arquivo guia a equipe na implementação orientada ao domínio da atividade BDN.
+This index splits the C4 content into smaller files so each diagram renders independently in GitHub.
 
-## C4 - Nível 1 (Contexto)
+## Diagram Index
 
-```mermaid
-flowchart TB
-    Cliente[Cliente interessado]
-    Vendedor[Atendente/Vendedor]
-    Gerente[Gerente comercial]
-    Admin[Administrador]
-    Sistema["Sistema de Gestão de Leads - 1000 Valle Multimarcas"]
+- Level 1 (Context): `documentacao/c4/01-context.md`
+- Level 2 (Container): `documentacao/c4/02-container.md`
+- Level 3 (Component): `documentacao/c4/03-component.md`
+- Level 4 (Code Flow): `documentacao/c4/04-code-flow.md`
+- Data Model (ER): `documentacao/c4/05-data-model.md`
 
-    Cliente -->|gera interesse por canais| Sistema
-    Vendedor -->|atualiza lead e negociação| Sistema
-    Gerente -->|acompanha indicadores| Sistema
-    Admin -->|governança e auditoria| Sistema
-```
+## Modeling Notes
 
-## C4 - Nível 2 (Containers lógicos)
-
-```mermaid
-flowchart LR
-    UI["Canal de Captura - telefone, WhatsApp, Instagram, form"]
-    API[Camada de Aplicação]
-    DB[(MongoDB)]
-    BI[Painel Gerencial]
-
-    UI --> API
-    API --> DB
-    DB --> BI
-    API --> BI
-```
-
-## C4 - Nível 3 (Componentes de dados)
-
-```mermaid
-flowchart TB
-    Leads[(leads)]
-    Clientes[(clientes)]
-    Usuarios[(usuarios)]
-    Lojas[(lojas)]
-    Negociacoes[(negociacoes)]
-    Logs[(logs)]
-
-    Leads -->|clienteId| Clientes
-    Leads -->|atendenteId| Usuarios
-    Leads -->|lojaId| Lojas
-    Negociacoes -->|leadId| Leads
-    Logs -->|leadId, usuarioId| Leads
-    Logs --> Usuarios
-```
-
-## C4 - Nível 4 (Fluxo principal de negócio)
-
-```mermaid
-sequenceDiagram
-    participant C as Cliente
-    participant A as Atendente
-    participant S as Sistema
-    participant M as MongoDB
-
-    C->>A: Demonstra interesse em veículo
-    A->>S: Cadastra lead
-    S->>M: Inserir cliente (se não existir)
-    S->>M: Inserir lead com referência de cliente/loja/atendente
-    A->>S: Inicia negociação
-    S->>M: Inserir negociação ativa (única por lead)
-    A->>S: Atualiza estágio/status
-    S->>M: Append no histórico (embedding)
-    S->>M: Registrar log de auditoria
-```
-
-## Modelo de dados (ER simplificado para NoSQL)
-
-```mermaid
-erDiagram
-    CLIENTES ||--o{ LEADS : referenciado_por
-    USUARIOS ||--o{ LEADS : atende
-    LOJAS ||--o{ LEADS : recebe
-    LEADS ||--o{ NEGOCIACOES : possui
-    LEADS ||--o{ LOGS : rastreado_em
-    USUARIOS ||--o{ LOGS : executa
-
-    CLIENTES {
-        objectId _id
-        string nome
-        string telefone
-        string email
-    }
-    LEADS {
-        objectId _id
-        objectId clienteId
-        objectId atendenteId
-        objectId lojaId
-        string origem
-        string status
-        string importância
-    }
-    NEGOCIACOES {
-        objectId _id
-        objectId leadId
-        bool ativa
-        array historico
-        string estágioAtual
-    }
-```
-
-## Decisões de modelagem (resumo operacional)
-
-- **Embedding:** histórico da negociação dentro de `negociacoes` para leitura rápida da evolução.
-- **Referencing:** `leads` aponta para `clientes`, `usuarios` e `lojas` para evitar duplicação de entidades mestres.
-- **Integridade de negócio:** índice único parcial para garantir somente uma negociação ativa por lead.
+- **Embedding:** negotiation timeline is embedded in `negociacoes.history` for fast read of progression.
+- **Referencing:** `leads` references `clientes`, `usuarios`, and `lojas` to avoid duplicated master entities.
+- **Business integrity:** a partial unique index enforces only one active negotiation per lead.
 

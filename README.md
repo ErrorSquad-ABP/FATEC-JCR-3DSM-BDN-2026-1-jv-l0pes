@@ -5,7 +5,8 @@ Repositório da atividade de Banco de Dados Não Relacional (MongoDB), tema **10
 ## Estrutura
 
 - `Requisitos-ABP/README.md`: guia de entrega da atividade.
-- `documentacao/modelagem.c4`: arquitetura e modelagem com foco em C4 + Mermaid.
+- `documentacao/modelagem.c4`: índice da arquitetura C4.
+- `documentacao/c4/`: diagramas C4 quebrados por nível para melhor renderização.
 - `documentacao/justificativas.md`: decisões de embedding/referencing e vantagens do modelo.
 - `documentacao/consultas-e-aggregations.md`: consultas obrigatórias e pipelines de dashboard.
 
