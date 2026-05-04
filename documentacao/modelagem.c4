@@ -1,0 +1,115 @@
+# Modelagem C4 - Sistema de Gestao de Leads (MongoDB)
+
+Este arquivo guia a equipe na implementacao orientada ao dominio da atividade BDN.
+
+## C4 - Nivel 1 (Contexto)
+
+```mermaid
+flowchart TB
+    Cliente[Cliente interessado]
+    Vendedor[Atendente/Vendedor]
+    Gerente[Gerente comercial]
+    Admin[Administrador]
+    Sistema[Sistema de Gestao de Leads\n1000 Valle Multimarcas]
+
+    Cliente -->|gera interesse por canais| Sistema
+    Vendedor -->|atualiza lead e negociacao| Sistema
+    Gerente -->|acompanha indicadores| Sistema
+    Admin -->|governanca e auditoria| Sistema
+```
+
+## C4 - Nivel 2 (Containers logicos)
+
+```mermaid
+flowchart LR
+    UI[Canal de Captura\n(telefone, WhatsApp, Instagram, form)]
+    API[Camada de Aplicacao]
+    DB[(MongoDB)]
+    BI[Painel Gerencial]
+
+    UI --> API
+    API --> DB
+    DB --> BI
+    API --> BI
+```
+
+## C4 - Nivel 3 (Componentes de dados)
+
+```mermaid
+flowchart TB
+    Leads[(leads)]
+    Clientes[(clientes)]
+    Usuarios[(usuarios)]
+    Lojas[(lojas)]
+    Negociacoes[(negociacoes)]
+    Logs[(logs)]
+
+    Leads -->|clienteId| Clientes
+    Leads -->|atendenteId| Usuarios
+    Leads -->|lojaId| Lojas
+    Negociacoes -->|leadId| Leads
+    Logs -->|leadId, usuarioId| Leads
+    Logs --> Usuarios
+```
+
+## C4 - Nivel 4 (Fluxo principal de negocio)
+
+```mermaid
+sequenceDiagram
+    participant C as Cliente
+    participant A as Atendente
+    participant S as Sistema
+    participant M as MongoDB
+
+    C->>A: Demonstra interesse em veiculo
+    A->>S: Cadastra lead
+    S->>M: Inserir cliente (se nao existir)
+    S->>M: Inserir lead com referencia de cliente/loja/atendente
+    A->>S: Inicia negociacao
+    S->>M: Inserir negociacao ativa (unica por lead)
+    A->>S: Atualiza estagio/status
+    S->>M: Append no historico (embedding)
+    S->>M: Registrar log de auditoria
+```
+
+## Modelo de dados (ER simplificado para NoSQL)
+
+```mermaid
+erDiagram
+    CLIENTES ||--o{ LEADS : referenciado_por
+    USUARIOS ||--o{ LEADS : atende
+    LOJAS ||--o{ LEADS : recebe
+    LEADS ||--o{ NEGOCIACOES : possui
+    LEADS ||--o{ LOGS : rastreado_em
+    USUARIOS ||--o{ LOGS : executa
+
+    CLIENTES {
+        objectId _id
+        string nome
+        string telefone
+        string email
+    }
+    LEADS {
+        objectId _id
+        objectId clienteId
+        objectId atendenteId
+        objectId lojaId
+        string origem
+        string status
+        string importancia
+    }
+    NEGOCIACOES {
+        objectId _id
+        objectId leadId
+        bool ativa
+        array historico
+        string estagioAtual
+    }
+```
+
+## Decisoes de modelagem (resumo operacional)
+
+- **Embedding:** historico da negociacao dentro de `negociacoes` para leitura rapida da evolucao.
+- **Referencing:** `leads` aponta para `clientes`, `usuarios` e `lojas` para evitar duplicacao de entidades mestres.
+- **Integridade de negocio:** indice unico parcial para garantir somente uma negociacao ativa por lead.
+
