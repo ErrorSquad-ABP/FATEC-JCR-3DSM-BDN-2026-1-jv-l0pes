@@ -1,62 +1,82 @@
-# Requisitos-ABP
+# Requisitos-ABP — Entrega da Atividade
 
-## Checklist de Entrega
+Sistema de Gestão de Leads — **1000 Valle Multimarcas**  
+Disciplina: Banco de Dados Não Relacional (MongoDB)
 
-- [ ] Script MongoDB completo
-- [ ] Prints de tela inteira
-- [ ] Documento de justificativas
-- [ ] PDF final com nome **BDN-Documento-ABP.pdf**
+---
 
-## Conteúdo Mínimo
+## Documentação principal
 
-### Coleções obrigatórias
+| Arquivo | Descrição |
+|---------|-----------|
+| [BDN-Documento-ABP.md](./BDN-Documento-ABP.md) | Documento consolidado da entrega |
+| [script-mongodb.js](./script-mongodb.js) | Script MongoDB completo (executável) |
+| [modelagem.md](./modelagem.md) | Estrutura das coleções e campos |
+| [justificativas.md](./justificativas.md) | Embedding, referencing e vantagens |
+| [consultas-e-aggregations.md](./consultas-e-aggregations.md) | Consultas e pipelines de dashboard |
 
-- `clientes`
-- `leads`
-- `usuarios` (atendentes, gerentes, admin)
-- `negociacoes`
-- `logs`
-- `lojas`
+---
 
-### Regras obrigatórias
+## PDFs com prints (evidências)
 
-- [ ] Cada lead vinculado a um cliente
-- [ ] Cada lead vinculado a uma loja e a um atendente
-- [ ] Apenas uma negociação ativa por lead
-- [ ] Histórico de negociação registrado
-- [ ] Controle de status e estágio
+Os prints de tela inteira estão nos PDFs por dia:
 
-### Volume mínimo de dados
+- [Dia 1 — Coleções](../docs/entregas/PDFs/dia1-leitura-problema-colecoes.pdf)
+- [Dia 2 — Modelagem](../docs/entregas/PDFs/dia2-modelagem-mongodb-embedding-referencing.pdf)
+- [Dia 3 — Dados e consultas](../docs/entregas/PDFs/dia3–inserção-de-dados-e-consultas.pdf)
+- [Dia 4 — Aggregations](../docs/entregas/PDFs/dia4_aggregations_finalizacao.pdf)
 
-- 5 clientes
-- 10 leads
-- 10 negociações
-- 5 usuários
-- 10 logs
-- 3 lojas
+---
 
-### Consultas obrigatórias
+## Checklist de entrega
 
-- [ ] `$and` e `$or`
-- [ ] `$gt` e `$lt`
-- [ ] `$exists`
-- [ ] Projeção
-- [ ] Ordenação (`sort`)
-- [ ] Paginação (`skip`, `limit`)
+### Conteúdo técnico
 
-### Dashboard (aggregation)
+- [x] Script MongoDB completo
+- [x] Prints de tela inteira (PDFs por dia)
+- [x] Documento com justificativas
+- [x] Coleções: `clientes`, `leads`, `usuarios`, `negociacoes`, `logs`, `lojas`
+- [x] Volume mínimo: 5/10/5/10/10/3
+- [x] Consultas: `$and`, `$or`, `$gt`, `$lt`, `$exists`, projeção, sort, skip/limit
+- [x] Aggregations: leads por origem, status, conversão, atendente, importância
 
-- [ ] Leads por origem
-- [ ] Leads por status
-- [ ] Taxa de conversão
-- [ ] Leads por atendente
-- [ ] Leads por importância
+### Regras de negócio
 
-## Fluxo de Publicação
+- [x] Lead vinculado a cliente, loja e atendente
+- [x] Apenas uma negociação ativa por lead
+- [x] Histórico de negociação (embedding)
+- [x] Controle de status e estágio
 
-1. Commitar os artefatos neste repositório.
-2. Fazer upload do `BDN-Documento-ABP.pdf`.
-3. Copiar o link do PDF no GitHub.
-4. Comentar o link no card **BDN-Entrega do Documento** no Kanban da disciplina.
-5. Mover o card para **Entregue** no Kanban do próprio repositório.
+### Publicação
 
+- [ ] Gerar `BDN-Documento-ABP.pdf` (opcional — PDFs por dia já existem)
+- [ ] Commit dos arquivos neste repositório
+- [ ] Link do PDF no card **BDN-Entrega do Documento** (Kanban da professora)
+- [ ] Mover card para **Entregue** no Kanban do grupo
+
+---
+
+## Como executar o script
+
+1. Abra o **MongoDB Compass**
+2. Conecte ao cluster/local
+3. Aba **Mongosh**
+4. Cole o conteúdo de [script-mongodb.js](./script-mongodb.js)
+5. Execute as consultas de [consultas-e-aggregations.md](./consultas-e-aggregations.md)
+
+---
+
+## Estrutura do repositório
+
+```
+Requisitos-ABP/
+├── README.md                      ← este arquivo
+├── BDN-Documento-ABP.md           ← documento principal
+├── script-mongodb.js              ← script completo
+├── modelagem.md                   ← coleções e campos
+├── justificativas.md              ← decisões de modelagem
+└── consultas-e-aggregations.md    ← consultas e dashboard
+
+docs/entregas/PDFs/                ← prints por dia de aula
+documentacao/                      ← C4, docs complementares
+```

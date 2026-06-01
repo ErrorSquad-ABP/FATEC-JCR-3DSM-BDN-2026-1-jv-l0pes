@@ -4,10 +4,13 @@ Repositório da atividade de Banco de Dados Não Relacional (MongoDB), tema **10
 
 ## Estrutura
 
-- `Requisitos-ABP/README.md`: guia de entrega da atividade.
+- `Requisitos-ABP/`: **documentação principal da entrega** (script, modelagem, justificativas, consultas).
+- `Requisitos-ABP/BDN-Documento-ABP.md`: índice consolidado do projeto.
+- `Requisitos-ABP/script-mongodb.js`: script MongoDB executável completo.
+- `docs/entregas/PDFs/`: PDFs com prints por dia de aula.
 - `documentacao/c4/`: diagramas C4 quebrados por nível para melhor renderização.
-- `documentacao/justificativas.md`: decisões de embedding/referencing e vantagens do modelo.
-- `documentacao/consultas-e-aggregations.md`: consultas obrigatórias e pipelines de dashboard.
+- `documentacao/justificativas.md`: cópia/resumo das justificativas (ver também `Requisitos-ABP/`).
+- `documentacao/consultas-e-aggregations.md`: consultas e aggregations (ver também `Requisitos-ABP/`).
 
 ## Escopo da Entrega
 
